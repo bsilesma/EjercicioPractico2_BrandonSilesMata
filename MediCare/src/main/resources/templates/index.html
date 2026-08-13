@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecera('Inicio')}"></head>
+<body>
+
+<nav th:replace="~{fragmentos/base :: navegacion}"></nav>
+
+<main class="container my-4">
+    <h1 class="h3">Plataforma MediCare</h1>
+    <p class="text-body-secondary">
+        Sistema de administracion de usuarios, roles y citas medicas del centro de salud.
+    </p>
+
+    <div class="row row-cols-1 row-cols-md-2 g-3 mt-2">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h5">Usuarios</h2>
+                    <p class="card-text">Registro de las personas que utilizan el sistema y su rol asignado.</p>
+                    <a class="btn btn-outline-primary btn-sm" th:href="@{/usuarios}">Ir a usuarios</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h5">Roles</h2>
+                    <p class="card-text">Perfiles del sistema que definen los permisos de cada usuario.</p>
+                    <a class="btn btn-outline-primary btn-sm" th:href="@{/roles}">Ir a roles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h5">Citas medicas</h2>
+                    <p class="card-text">Control de las citas programadas por paciente, especialidad y fecha.</p>
+                    <a class="btn btn-outline-primary btn-sm" th:href="@{/citas}">Ir a citas medicas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h5">Consultas</h2>
+                    <p class="card-text">Busquedas por estado, rango de fechas, especialidad y rol.</p>
+                    <a class="btn btn-outline-primary btn-sm" th:href="@{/consultas}">Ir a consultas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: pie}"></footer>
+<div th:replace="~{fragmentos/base :: scripts}"></div>
+
+</body>
+</html>

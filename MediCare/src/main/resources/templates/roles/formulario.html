@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecera('Roles')}"></head>
+<body>
+
+<nav th:replace="~{fragmentos/base :: navegacion}"></nav>
+
+<main class="container my-4">
+    <h1 class="h3 mb-3" th:text="${rol.id} == null ? 'Nuevo rol' : 'Editar rol'">Nuevo rol</h1>
+
+    <div th:replace="~{fragmentos/base :: avisos}"></div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form th:action="@{/roles/guardar}" th:object="${rol}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <div class="mb-3">
+                    <label class="form-label" for="nombre">Nombre del rol</label>
+                    <input type="text" class="form-control" id="nombre" th:field="*{nombre}"
+                           maxlength="100" required>
+                    <div class="form-text">Se guarda en mayusculas, por ejemplo ADMIN, MEDICO o PACIENTE.</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-secondary" th:href="@{/roles}">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: pie}"></footer>
+<div th:replace="~{fragmentos/base :: scripts}"></div>
+
+</body>
+</html>
