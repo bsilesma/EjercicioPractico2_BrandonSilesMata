@@ -7,11 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-// Configuracion de Spring Security; por ahora deja el acceso abierto mientras se construyen los CRUD.
 @Configuration
 public class SeguridadConfig {
 
-    // Algoritmo BCrypt para guardar y comparar las claves de los usuarios.
+    // Algoritmo BCrypt para guardar y comparar las claves de los usuarios
     @Bean
     public PasswordEncoder codificadorClaves() {
         return new BCryptPasswordEncoder();

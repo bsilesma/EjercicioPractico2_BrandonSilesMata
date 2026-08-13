@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecera('Consultas')}"></head>
+<body>
+
+<nav th:replace="~{fragmentos/base :: navegacion}"></nav>
+
+<main class="container my-4">
+    <h1 class="h3 mb-3">Consultas avanzadas</h1>
+
+    <div th:replace="~{fragmentos/base :: avisos}"></div>
+
+    <p class="text-body-secondary">
+        Total de citas medicas activas en el sistema:
+        <span class="fw-semibold" th:text="${totalCitasActivas}">0</span>
+    </p>
+
+    <div class="row row-cols-1 row-cols-lg-2 g-3">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h6">Citas por estado</h2>
+                    <form th:action="@{/consultas/estado}" method="get" class="row g-2 align-items-end">
+                        <div class="col-sm-8">
+                            <label class="form-label" for="estadoCita">Estado</label>
+                            <select class="form-select" id="estadoCita" name="estadoCita">
+                                <option value="true" th:selected="${estadoCita != null and estadoCita}">Activas</option>
+                                <option value="false" th:selected="${estadoCita != null and !estadoCita}">Inactivas</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h6">Citas por rango de fechas</h2>
+                    <form th:action="@{/consultas/rango-fechas}" method="get" class="row g-2 align-items-end">
+                        <div class="col-sm-4">
+                            <label class="form-label" for="fechaInicio">Desde</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
+                                   th:value="${fechaInicio}" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="form-label" for="fechaFin">Hasta</label>
+                            <input type="date" class="form-control" id="fechaFin" name="fechaFin"
+                                   th:value="${fechaFin}" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h6">Citas por especialidad</h2>
+                    <form th:action="@{/consultas/especialidad}" method="get" class="row g-2 align-items-end">
+                        <div class="col-sm-8">
+                            <label class="form-label" for="textoEspecialidad">Texto a buscar</label>
+                            <input type="text" class="form-control" id="textoEspecialidad" name="textoEspecialidad"
+                                   th:value="${textoEspecialidad}" placeholder="Por ejemplo: cardio" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title h6">Usuarios por rol</h2>
+                    <form th:action="@{/consultas/usuarios-por-rol}" method="get" class="row g-2 align-items-end">
+                        <div class="col-sm-8">
+                            <label class="form-label" for="nombreRol">Rol</label>
+                            <select class="form-select" id="nombreRol" name="nombreRol">
+                                <option th:each="rolDisponible : ${listaRoles}"
+                                        th:value="${rolDisponible.nombre}"
+                                        th:text="${rolDisponible.nombre}"
+                                        th:selected="${nombreRol != null and nombreRol == rolDisponible.nombre}">ADMIN</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resultados de citas medicas -->
+    <div th:if="${citasEncontradas != null}" class="mt-4">
+        <h2 class="h5" th:text="${tituloResultado}">Resultado</h2>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Especialidad</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col" class="text-end">Costo</th>
+                    <th scope="col">Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="citaDeLaFila : ${citasEncontradas}">
+                    <td th:text="${citaDeLaFila.id}">1</td>
+                    <td th:text="${citaDeLaFila.pacienteNombre}">Paciente</td>
+                    <td th:text="${citaDeLaFila.especialidad}">Especialidad</td>
+                    <td th:text="${citaDeLaFila.fecha != null} ? ${#temporals.format(citaDeLaFila.fecha, 'dd/MM/yyyy')} : '-'">
+                        01/01/2026
+                    </td>
+                    <td class="text-end"
+                        th:text="${citaDeLaFila.costo != null} ? ${#numbers.formatDecimal(citaDeLaFila.costo, 1, 'COMMA', 2, 'POINT')} : '-'">
+                        0.00
+                    </td>
+                    <td th:text="${citaDeLaFila.activa} ? 'Activa' : 'Inactiva'">Activa</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(citasEncontradas)}">
+                    <td colspan="6" class="text-center text-body-secondary">La consulta no devolvio resultados.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Resultados de usuarios -->
+    <div th:if="${usuariosEncontrados != null}" class="mt-4">
+        <h2 class="h5" th:text="${tituloResultado}">Resultado</h2>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usuarioDeLaFila : ${usuariosEncontrados}">
+                    <td th:text="${usuarioDeLaFila.id}">1</td>
+                    <td th:text="${usuarioDeLaFila.nombre}">Nombre</td>
+                    <td th:text="${usuarioDeLaFila.email}">correo@medicare.com</td>
+                    <td th:text="${usuarioDeLaFila.rol != null} ? ${usuarioDeLaFila.rol.nombre} : 'Sin rol'">ADMIN</td>
+                    <td th:text="${usuarioDeLaFila.activo} ? 'Activo' : 'Inactivo'">Activo</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usuariosEncontrados)}">
+                    <td colspan="5" class="text-center text-body-secondary">La consulta no devolvio resultados.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: pie}"></footer>
+<div th:replace="~{fragmentos/base :: scripts}"></div>
+
+</body>
+</html>

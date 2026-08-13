@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecera('Citas medicas')}"></head>
+<body>
+
+<nav th:replace="~{fragmentos/base :: navegacion}"></nav>
+
+<main class="container my-4">
+    <h1 class="h3 mb-3" th:text="${cita.id} == null ? 'Nueva cita medica' : 'Editar cita medica'">Nueva cita medica</h1>
+
+    <div th:replace="~{fragmentos/base :: avisos}"></div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <form th:action="@{/citas/guardar}" th:object="${cita}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <div class="mb-3">
+                    <label class="form-label" for="pacienteNombre">Nombre del paciente</label>
+                    <input type="text" class="form-control" id="pacienteNombre" th:field="*{pacienteNombre}"
+                           maxlength="150" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="especialidad">Especialidad</label>
+                    <input type="text" class="form-control" id="especialidad" th:field="*{especialidad}"
+                           maxlength="100" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="fecha">Fecha de la cita</label>
+                    <input type="date" class="form-control" id="fecha" th:field="*{fecha}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="costo">Costo</label>
+                    <input type="number" class="form-control" id="costo" th:field="*{costo}"
+                           step="0.01" min="0" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="activa">Estado</label>
+                    <select class="form-select" id="activa" th:field="*{activa}">
+                        <option th:value="true">Activa</option>
+                        <option th:value="false">Inactiva</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-secondary" th:href="@{/citas}">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: pie}"></footer>
+<div th:replace="~{fragmentos/base :: scripts}"></div>
+
+</body>
+</html>

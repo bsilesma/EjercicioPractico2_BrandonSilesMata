@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecera('Usuarios')}"></head>
+<body>
+
+<nav th:replace="~{fragmentos/base :: navegacion}"></nav>
+
+<main class="container my-4">
+    <h1 class="h3 mb-3">Detalle del usuario</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Codigo</dt>
+                <dd class="col-sm-9" th:text="${usuario.id}">1</dd>
+
+                <dt class="col-sm-3">Nombre</dt>
+                <dd class="col-sm-9" th:text="${usuario.nombre}">Nombre</dd>
+
+                <dt class="col-sm-3">Correo</dt>
+                <dd class="col-sm-9" th:text="${usuario.email}">correo@medicare.com</dd>
+
+                <dt class="col-sm-3">Rol</dt>
+                <dd class="col-sm-9" th:text="${usuario.rol != null} ? ${usuario.rol.nombre} : 'Sin rol'">ADMIN</dd>
+
+                <dt class="col-sm-3">Estado</dt>
+                <dd class="col-sm-9" th:text="${usuario.activo} ? 'Activo' : 'Inactivo'">Activo</dd>
+
+                <dt class="col-sm-3">Fecha de creacion</dt>
+                <dd class="col-sm-9"
+                    th:text="${usuario.fechaCreacion != null} ? ${#temporals.format(usuario.fechaCreacion, 'dd/MM/yyyy HH:mm')} : '-'">
+                    01/01/2026 00:00
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a class="btn btn-secondary" th:href="@{/usuarios}">Volver al listado</a>
+        <a class="btn btn-primary" th:href="@{/usuarios/editar/{id}(id=${usuario.id})}">Editar</a>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: pie}"></footer>
+<div th:replace="~{fragmentos/base :: scripts}"></div>
+
+</body>
+</html>

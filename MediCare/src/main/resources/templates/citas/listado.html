@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecera('Citas medicas')}"></head>
+<body>
+
+<nav th:replace="~{fragmentos/base :: navegacion}"></nav>
+
+<main class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Gestion de citas medicas</h1>
+        <a class="btn btn-primary" th:href="@{/citas/nuevo}">Nueva cita</a>
+    </div>
+
+    <div th:replace="~{fragmentos/base :: avisos}"></div>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Especialidad</th>
+                <th scope="col">Fecha</th>
+                <th scope="col" class="text-end">Costo</th>
+                <th scope="col">Estado</th>
+                <th scope="col" class="text-end">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="citaDeLaFila : ${listaCitas}">
+                <td th:text="${citaDeLaFila.id}">1</td>
+                <td th:text="${citaDeLaFila.pacienteNombre}">Paciente</td>
+                <td th:text="${citaDeLaFila.especialidad}">Especialidad</td>
+                <td th:text="${citaDeLaFila.fecha != null} ? ${#temporals.format(citaDeLaFila.fecha, 'dd/MM/yyyy')} : '-'">
+                    01/01/2026
+                </td>
+                <td class="text-end"
+                    th:text="${citaDeLaFila.costo != null} ? ${#numbers.formatDecimal(citaDeLaFila.costo, 1, 'COMMA', 2, 'POINT')} : '-'">
+                    0.00
+                </td>
+                <td>
+                    <span class="badge text-bg-success" th:if="${citaDeLaFila.activa}">Activa</span>
+                    <span class="badge text-bg-secondary" th:unless="${citaDeLaFila.activa}">Inactiva</span>
+                </td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-primary"
+                       th:href="@{/citas/detalle/{id}(id=${citaDeLaFila.id})}">Detalle</a>
+                    <a class="btn btn-sm btn-outline-secondary"
+                       th:href="@{/citas/editar/{id}(id=${citaDeLaFila.id})}">Editar</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       th:href="@{/citas/eliminar/{id}(id=${citaDeLaFila.id})}"
+                       onclick="return confirm('Desea eliminar esta cita medica?');">Eliminar</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listaCitas)}">
+                <td colspan="7" class="text-center text-body-secondary">No hay citas medicas registradas.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: pie}"></footer>
+<div th:replace="~{fragmentos/base :: scripts}"></div>
+
+</body>
+</html>

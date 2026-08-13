@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-// Controlador del modulo de roles: atiende el listado, el formulario, el guardado y la eliminacion.
+// Controlador del modulo de roles: atiende el listado, el formulario, el guardado y la eliminacion
 @Controller
 @RequestMapping("/roles")
 public class RolController {
