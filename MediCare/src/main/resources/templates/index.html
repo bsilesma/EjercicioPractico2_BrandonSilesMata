@@ -11,8 +11,14 @@
         Sistema de administracion de usuarios, roles y citas medicas del centro de salud.
     </p>
 
-    <div class="row row-cols-1 row-cols-md-2 g-3 mt-2">
-        <div class="col">
+    <div th:if="${rolEnSesion == null}">
+        <p>Debe iniciar sesion para ingresar a los modulos del sistema.</p>
+        <a class="btn btn-primary" th:href="@{/login}">Iniciar sesion</a>
+    </div>
+
+    <!-- Cada modulo aparece solo si el rol de la sesion tiene permiso sobre el. -->
+    <div class="row row-cols-1 row-cols-md-2 g-3 mt-2" th:if="${rolEnSesion != null}">
+        <div class="col" th:if="${rolEnSesion == 'ADMIN'}">
             <div class="card h-100">
                 <div class="card-body">
                     <h2 class="card-title h5">Usuarios</h2>
@@ -21,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col" th:if="${rolEnSesion == 'ADMIN'}">
             <div class="card h-100">
                 <div class="card-body">
                     <h2 class="card-title h5">Roles</h2>

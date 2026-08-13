@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecera('Iniciar sesion')}"></head>
+<body>
+
+<nav th:replace="~{fragmentos/base :: navegacion}"></nav>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h4 mb-3">Iniciar sesion</h1>
+
+                    <div class="alert alert-danger" role="alert" th:if="${param.error}">
+                        Correo o contrasena incorrectos.
+                    </div>
+                    <div class="alert alert-success" role="alert" th:if="${param.salida}">
+                        La sesion se cerro correctamente.
+                    </div>
+
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label" for="email">Correo electronico</label>
+                            <input type="email" class="form-control" id="email" name="email" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="clave">Contrasena</label>
+                            <input type="password" class="form-control" id="clave" name="clave" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: pie}"></footer>
+<div th:replace="~{fragmentos/base :: scripts}"></div>
+
+</body>
+</html>

@@ -8,7 +8,8 @@
 <main class="container my-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 mb-0">Gestion de citas medicas</h1>
-        <a class="btn btn-primary" th:href="@{/citas/nuevo}">Nueva cita</a>
+        <!-- El rol PACIENTE solo visualiza, por eso no ve las acciones de modificacion. -->
+        <a class="btn btn-primary" th:if="${rolEnSesion != 'PACIENTE'}" th:href="@{/citas/nuevo}">Nueva cita</a>
     </div>
 
     <div th:replace="~{fragmentos/base :: avisos}"></div>
@@ -45,9 +46,9 @@
                 <td class="text-end">
                     <a class="btn btn-sm btn-outline-primary"
                        th:href="@{/citas/detalle/{id}(id=${citaDeLaFila.id})}">Detalle</a>
-                    <a class="btn btn-sm btn-outline-secondary"
+                    <a class="btn btn-sm btn-outline-secondary" th:if="${rolEnSesion != 'PACIENTE'}"
                        th:href="@{/citas/editar/{id}(id=${citaDeLaFila.id})}">Editar</a>
-                    <a class="btn btn-sm btn-outline-danger"
+                    <a class="btn btn-sm btn-outline-danger" th:if="${rolEnSesion != 'PACIENTE'}"
                        th:href="@{/citas/eliminar/{id}(id=${citaDeLaFila.id})}"
                        onclick="return confirm('Desea eliminar esta cita medica?');">Eliminar</a>
                 </td>
